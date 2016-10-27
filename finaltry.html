@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    
+    <style>
+        
+        body{
+            background-color: azure;
+        }
+    
+        body p1{
+            margin-left: 350px;
+            font-size: 50px;
+            color: red;
+        }
+        body p3{
+            margin-left: 110px;
+            font-size: 30px;
+            font-weight: 700;
+        }
+        body p4{
+            margin-left: 220px;
+            font-size: 30px;
+            font-weight: 700;
+        }
+    
+    </style>
+    
+<body>
+    <p1>HCIN 720 Assignment 2</p1>
+    <p>Proximity Sensor Current Value: <span id="Value"></span><br></p>
+    <p3>Visualization</p3>
+    <p4>Abstract Visualization </p4>
+    <p id="signal"></p>
+    
+<script type="text/javascript" src="paper-full.js"></script>
+    <script type="text/javascript">
+        
+
+  
+       /* $.each(results,function(newValue){
+            if(newValue>1000){
+                console.log("abobe 1000");
+            }
+        });*/
+        
+     
+paper.install(window);
+	
+    window.onload = function() {
+    paper.setup('myCanvas');
+        
+      var deviceID    = "370035000647353138383138";
+      var accessToken = "1ef9a01df71f3937e33be6e6adf00e528a5b8a4d";
+      var setFunc = "setLed";
+      var getFunc = "val";  
+    var newValue1 = 0;
+        var newValue2= 0;
+        
+        var myCircle;
+      
+     
+
+      window.setInterval(function() {
+        requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + getFunc + "/?access_token=" + accessToken;
+        $.getJSON(requestURL, function(json) {
+                 document.getElementById("Value").innerHTML = json.result;
+                 document.getElementById("Value").style.fontSize = "28px";
+                 //document.getElementById("signal").innerHTML = "WARNING !";
+                 //document.getElementById("signal").style.fontSize = "34px";
+                 newValue = json.result;
+                 //console.log(newValue);  
+                 sparkSendValue(newValue);
+                 setNewValue(newValue);
+                 setNewValue2(newValue);
+                 //sendValuePaper(newValue);
+                 //window.globals.proxValue = newValue;
+            });
+   }, 1000);
+
+        
+    function sparkSendValue(newValue) {
+	var requestURL = "https://api.spark.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+        $.post( requestURL, { params: newValue, access_token: accessToken });
+      }    
+        
+       
+      
+function setNewValue(x)
+        {
+            
+            newValue1 = x;   
+         console.log(newValue1);
+         var radius = newValue1/100;
+            
+        var rectangle = new Rectangle(new Point(40, 12), new Point(150, 150));
+var path = new Path.Rectangle(rectangle);
+path.fillColor = 'white';
+path.selected = false;
+        //myCircle.remove();
+         
+        // myCircle.fillColor='white';
+            
+            console.log("hi");
+         myCircle = new Path.Circle(new Point(100, 70), radius);
+         myCircle.strokeColor = 'black';
+            myCircle.fillColor= 'green';
+            console.log("hi1");
+            view.draw();
+        
+            if(newValue1>2500){
+                console.log("warning");
+                document.getElementById("signal").innerHTML = "WARNING!! Somebody's there.";
+                document.getElementById("signal").style.fontSize = "34px";
+            }
+            
+            else{
+                document.getElementById("signal").innerHTML = " ";
+            }
+         //radius+=100;     
+       
+        
+    }
+        
+        function setNewValue2(x)
+        {
+            
+            newValue2 = x;   
+         console.log(newValue1);
+         var radius = newValue2/100;
+            
+        
+        //myCircle.remove();
+         
+        // myCircle.fillColor='white';
+            
+            console.log("hi");
+         myCircle = new Path.Circle(new Point(300, 70), radius);
+         myCircle.strokeColor = 'black';
+            console.log("hi1");
+            view.draw();
+        
+         //radius+=100;     
+        }
+        
+        
+        
+        
+    
+    //console.log(newValue);    
+
+    
+//var realProxValue = globals.proxValue;
+
+
+}   
+    
+    
+    
+    
+    </script>
+
+
+    <canvas id="myCanvas" resize></canvas>
+</body>
+</html>
+
+
