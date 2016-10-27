@@ -5,7 +5,7 @@ The photon takes the values from the proximity sensor and sends it to the cloud 
 Using JavaScript and particle.function the values are pulled from the cloud and displayed on the webpage. 
 The visualization of the sensor data consists of displaying the Integer values and also visualizing it using paper.js framework.
 
-As the proximity sensor senses something/somebody is close to it, it gives the equivalent output on the Neo pixel ring as well as on the web page.
+As the proximity sensor senses something/somebody is close to it, it gives the equivalent output on the Neo pixel ring as well as on the web page. The Circle on the webpage expands and contracts according to the changes in the proximity sensor values. The abstract visualization according to the proximity sesnor data draws circles repeatedly rather than expanding and contracting the same single circle.
 
 
 
